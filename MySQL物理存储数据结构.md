@@ -124,7 +124,7 @@
 
    1. #### 数据页包含了什么？
 
-      <img src="D:\content\markdoc\imgs\数据页基本结构.png" style="zoom:38%;" />、
+      <img src=".\imgs\数据页基本结构.png" style="zoom:38%;" />、
 
       - 文件头
       - 数据页头
@@ -141,8 +141,8 @@
       - 可不停的讲数据插入到缓存页中，直到他空间消耗尽了，即页满了，空闲页也没空间了
 
 4. ### 表空间
-
-   <img src="D:\content\markdoc\imgs\数据组_数据区_数据页存放.png" style="zoom: 50%;" />
+    
+   <img src=".\imgs\数据组_数据区_数据页存放.png" style="zoom: 50%;" />
 
    1. #### 什么是表空间？
       
@@ -164,7 +164,7 @@
 
    1. #### 存在哪些读写盘的请求?
 
-      <img src="D:\content\markdoc\imgs\MySQL对数据页的随机读写.png" style="zoom: 50%;" />，
+      <img src=".\imgs\MySQL对数据页的随机读写.png" style="zoom: 50%;" />，
 
       1. redo log、undo log 、 binlog这种日志的顺序读写
       2. 从表空间找到找到数据页的随机读写，如表的缓存页刷盘、从磁盘文件随机读取数据页，由于数据页可能在任意位置，故此时读写磁盘为随机读写
@@ -188,7 +188,7 @@
 
 6. ### Linux文件系统
 
-   <img src="D:\content\markdoc\imgs\Linux文件系统操作.png" style="zoom:38%;" />、
+   <img src=".\imgs\Linux文件系统操作.png" style="zoom:38%;" />、
 
    1. #### 分层：
 
