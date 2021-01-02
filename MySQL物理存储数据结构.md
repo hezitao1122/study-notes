@@ -141,7 +141,7 @@
       - 可不停的讲数据插入到缓存页中，直到他空间消耗尽了，即页满了，空闲页也没空间了
 
 4. ### 表空间
-    
+   
    <img src=".\imgs\数据组_数据区_数据页存放.png" style="zoom: 50%;" />
 
    1. #### 什么是表空间？
@@ -248,4 +248,56 @@
          2. 手动充放电： 比较常用，写一个脚本，在晚上、凌晨的业务低峰时期，脚本手动触发电容充放电
          3. 充放电时，不要关闭write block模式
    
-   
+8. Redo Log日志
+
+   1. redo log日志格式
+
+      大致表达了如下的意思: 对表空间xx（表空间名）中的数据页yy（数据页页号）中的偏移量zzz的地方更新了数据，更新的值为aa
+
+   2. 写redo log日志和刷盘缓存页的差距?
+
+      - 缓存页的刷页是以页为单位，大小为15K，可能只修改了部分数据，但是也要整页的刷。所以相对于redo log日志这种比较耗时
+      - 缓存页读写为随机磁盘IO读写，性能较差
+      - redo log日志是以顺序追加在尾部，速度快，性能好
+      - redo log日志写入的内容较少，仅包括表空间、数据页号，磁盘文件偏移量、更新后的值等
+
+   3. redo log日志类型
+
+      - redo log写入的时候是有数据类型的，根据数据类型不同会生成不同的redo log日志文件
+
+      - Byte类型： MLOG_1BYTE代表修改了1字节的值，MLOG_2BYTE代表修改了两byte,以此类推
+
+      - String类型: MLOG_WRITE_STRING 代表修改了一大串的字符串值
+
+      - 所以，redo log日志的结构为：
+
+        ​	日志类型(如 MLOG_2BYTE) 、 表空间ID 、 数据页号 、 页的偏移量 、 修改的数据长度（MLOG_WRITE_STRING)时使用 ， 修改后的值
+
+   4. redo log block
+
+      ​	<img src="D:\content\markdoc\imgs\redo log block块结构.png" style="zoom:38%;" />
+
+      - 用于存放多个单行的redo log日志
+      - 一个redo log block日志是512K ， 包含三个部分 header （12字节）、 body （496字节）和trailer （4字节）
+      - header包含：
+        - 块编号（4字节）： block no 是block的唯一标识
+        - data length（2字节） 记录了这个block中写入了多少字节的数据
+        - first record group （2字节） 通常一个事务可以含有多个redo log日志，一个事务所含的redo log日志是一个group组，redo log日志用此来记录redo log日志属于哪个组，即记录第一个redo log的位置
+        - check point no（4字节）
+      - body中包含了一条条的redo log日志
+
+   5. redo log日志写入磁盘顺序
+
+      <img src="D:\content\markdoc\imgs\redo log写入顺序.png" style="zoom:38%;" />
+
+      - 先在内存中生成一系列的redo log日志，然后拼接好
+      - 在内存中生成一个redo log block区域，然后将拼接好的redo log日志写入block的body之中
+      - 内存中的redo log block刷入到磁盘中。（可一个个字节的进行追加）
+
+   6. redo log block是如何经过内存缓存写入到磁盘的？
+
+      - redo log buffer： 用来缓存redo log日志的，为MySQL启动的时候，向系统申请的一段连续内存空间，然后将这段连续内存空间划分为一系列的redo log block buffer空间
+      - 通过innodb_log_buffer_size可指定redo log buffer的大小，默认是16M 。 （原则上16M是足够了）
+      - 当redo log block写满之后，会将数据刷入磁盘
+      - 一个事务的一组redo log会先缓存到一块内存区域，然后再一次性写入redo log buffer之中
+      - 可以配置当事务提交就将对应的redo log 日志立刻刷入磁盘之中
