@@ -123,7 +123,7 @@
 3. ### 数据页
 
    1. #### 数据页包含了什么？
-
+      
       <img src=".\imgs\数据页基本结构.png" style="zoom:38%;" />、
 
       - 文件头
@@ -248,7 +248,7 @@
          2. 手动充放电： 比较常用，写一个脚本，在晚上、凌晨的业务低峰时期，脚本手动触发电容充放电
          3. 充放电时，不要关闭write block模式
    
-8. Redo Log日志
+8. redo Log日志
 
    1. redo log日志格式
 
@@ -301,3 +301,41 @@
       - 当redo log block写满之后，会将数据刷入磁盘
       - 一个事务的一组redo log会先缓存到一块内存区域，然后再一次性写入redo log buffer之中
       - 可以配置当事务提交就将对应的redo log 日志立刻刷入磁盘之中
+      
+   7. redo log block是哪些时间点进行刷盘的?
+   
+      - 如果写入redo log buffer的日志占了其一半（默认是8M），此时会进行刷盘
+      - 一个事务提交的时候，会把log在block进行刷盘
+      - 后台线程定时刷盘，每隔一段时间（1秒）即把buffer中的block刷入磁盘
+      - MySQL关闭的时候进行刷盘
+   
+   8. 当redo log文件越写越大怎么办？
+   
+      - 相关命令：
+        - 查看写的哪个路径下： variables like 'datadir'
+        - 修改目录： innodb_log_group_home_dir
+        - 设置文件大小：innodb_log_file_size ，默认是48M
+        - 设置文件数量： innodb_log_files_in_group ，默认是2个文件
+      - 写满一个文件之后，会覆盖性的写第二个文件
+      - 开始覆盖写第二个文件的时候，会强制将第二个文件的缓存页刷入磁盘
+   
+9. undo log日志
+
+   1. 是什么?记录了什么?
+
+      - 即回滚日志
+      - 记录了你对数据库的操作时候的SQL语句
+      - 如一条insert语句，则记录了日志里的delete，反之则为insert
+      - update则将数据update为原数据
+
+   2. 长什么样子?
+
+      <img src="D:\content\markdoc\imgs\undo log日志格式.png" style="zoom:50%;" />\
+
+      1. 记录了哪些东西?
+         - 这条undo log日志的开始位置
+         - 主键的各列场地和值(主键每个列的长度，无则是默认的ROW_ID)
+         - 表的主键-id
+         - undo log日志编号：每个undo log日志都有自己的编号，同一个事务第一个日志为0，然后递增
+         - undo log日志类型：如TRX_UNDO_INSERT_REC代表插入
+      2. 要回滚时，从undo log获取回滚日志，然后根据主键删除
