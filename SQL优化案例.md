@@ -80,7 +80,20 @@
    2. 慢查询不一定是由SQL引起的，也可以是MySQL服务器的资源占满了，如cpu、网络、磁盘等超负载导致的。
    3. 上述硬件资源都正常
 
-2. 排查
+2. ### 排查
 
-   1. 使用MySQL profiling工具去查看执行和耗时
-   2. 要使用
+   - 使用MySQL profiling工具去查看执行和耗时
+
+   - 要使用，得先进行MySQL设置，set profilling=1 ，接着MySQL会自动记录查询语句的Profilling信息
+
+   - 如若此时执行show profiles，就会列出各种查询语句的Profilling信息
+
+   - 针对单个查询语句，看到Profilling具体信息
+
+     show profile cpu ， block io for query id
+
+3. ### 问题
+
+   - sending data耗时高
+   - show engine Innodb status 看一下存储引擎状态，即history list lenga 这个指标异常高，和undo log日志版本链相关。故这个事务运行时很长，多版本快照不能被purge清理掉
+   - 长事务在运行删除的时候，实际上是加了一个删除标识，实际上并没有删除操作。其他事务对其进行查询的时候，可能把这个上千万数据扫描一遍
