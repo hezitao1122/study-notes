@@ -275,7 +275,7 @@
 
    4. redo log block
 
-      ​	<img src="D:\content\markdoc\imgs\redo log block块结构.png" style="zoom:38%;" />
+      ​	<img src="..\imgs\redo log block块结构.png" style="zoom:80%;" />
 
       - 用于存放多个单行的redo log日志
       - 一个redo log block日志是512K ， 包含三个部分 header （12字节）、 body （496字节）和trailer （4字节）
@@ -288,7 +288,7 @@
 
    5. redo log日志写入磁盘顺序
 
-      <img src="D:\content\markdoc\imgs\redo log写入顺序.png" style="zoom:38%;" />
+      <img src="..\imgs\redo log写入顺序.png" style="zoom:50%;" />
 
       - 先在内存中生成一系列的redo log日志，然后拼接好
       - 在内存中生成一个redo log block区域，然后将拼接好的redo log日志写入block的body之中
@@ -330,7 +330,7 @@
 
    2. 长什么样子?
 
-      <img src="D:\content\markdoc\imgs\undo log日志格式.png" style="zoom:50%;" />\
+      <img src="..\imgs\undo log日志格式.png" style="zoom:100%;" />\
 
       1. 记录了哪些东西?
          - 这条undo log日志的开始位置
