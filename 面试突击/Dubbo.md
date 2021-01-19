@@ -28,8 +28,6 @@
       10. 第十层：serialize 层，数据序列化层
       
    4. #### 工作流程
-         ​	<img src="..\imgs\dubbo消费.png" style="zoom:80%;" />
-
    ![](..\imgs\dubbo消费.png)
       1. provider向注册中心注册
       2. consumer向注册中心订阅,注册中心会通知consumer注册好的服务
