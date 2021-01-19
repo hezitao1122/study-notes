@@ -14,9 +14,8 @@
    - 其是一个内存组件，缓存了真实的数据
 
 3. ### Buffer Pool的内存结构：
-
-   <img src=".\imgs\Buffer Pool内存结构.png" style="zoom:38%;" />、
-
+      ​	<img src="..\imgs\Buffer Pool内存结构.png" style="zoom:80%;" />
+![](..\imgs\Buffer Pool内存结构.png)
    1. #### 配置Buffer Pool的大小
 
       - 默认情况下是128M大小，偏小
@@ -127,9 +126,8 @@
       - 解决问题： 预加载数据将热数据顶下去的问题。
 
       - 真正LRU链表被拆分成两，由innodb_old_blocks_pct参数控制，默认是37，即冷数据占总缓存页的37%
-
-        <img src=".\imgs\LRU冷热数据链.png" style="zoom:50%;" />
-
+      ​	<img src="..\imgs\LRU冷热数据链.png" style="zoom:80%;" />
+       ![](..\imgs\LRU冷热数据链.png)
       - 缓存页第一次被加载的时候，是放入冷数据链的头部
 
       - innodb_old_blocks_time，默认是1000毫秒，即在数据被加入冷链头部的时候，如果1000毫秒后，有请求访问此数据，则该数据会被放至热数据链头部
