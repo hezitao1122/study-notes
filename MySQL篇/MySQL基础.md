@@ -26,7 +26,7 @@
 
 2. ### MySQL架构设计
 
-![](.\imgs\MySQL基础架构.png)
+![](../imgs/MySQL基础架构.png)
 
 1. ##### 用户发送请求到Tomcat过程
    
@@ -76,7 +76,7 @@
 
 #### InnoDB的存储结构
 
-![](.\imgs\InnoDB写入流程.png)
+![](../imgs/InnoDB写入流程.png)
 
 1. ##### InnoDB会先查询数据是否存在，如果存在，直接加独占锁。如果不存在，则将磁盘里的数据读取到Buffer Pool进行缓存,并加独占锁
 

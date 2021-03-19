@@ -15,7 +15,7 @@
       
    3. ##### 底层原理
    
-   ![](..\imgs\dubbo结构.png)
+   ![](../imgs/dubbo结构.png)
       1. 第一层：service 层，接口层，给服务提供者和消费者来实现的
       2. 第二层：config 层，配置层，主要是对 dubbo 进行各种配置的
       3. 第三层：proxy 层，服务代理层，无论是 consumer 还是 provider，dubbo 都会给你生成代理，代理之间进行网络通信
@@ -28,7 +28,7 @@
       10. 第十层：serialize 层，数据序列化层
       
    4. #### 工作流程
-   ![](..\imgs\dubbo消费.png)
+   ![](../imgs/dubbo消费.png)
       1. provider向注册中心注册
       2. consumer向注册中心订阅,注册中心会通知consumer注册好的服务
       3. consumer调用provider

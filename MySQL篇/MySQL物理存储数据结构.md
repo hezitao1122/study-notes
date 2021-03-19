@@ -125,7 +125,7 @@ MySQL物理数据模型
 
    1. #### 数据页包含了什么？
       
-    ![](..\imgs\数据页基本结构.png)
+    ![](../imgs/数据页基本结构.png)
       - 文件头
       - 数据页头
       - 最小记录
@@ -142,7 +142,7 @@ MySQL物理数据模型
 
 4. ### 表空间
    
-    ![](..\imgs\数据组_数据区_数据页存放.png)
+    ![](../imgs/数据组_数据区_数据页存放.png)
    1. #### 什么是表空间？
       
       1. 表空间在磁盘上都会对应相应的文件，为 表名.ibd 的文件
@@ -163,7 +163,7 @@ MySQL物理数据模型
 
    1. #### 存在哪些读写盘的请求?
 
-    ![](..\imgs\MySQL对数据页的随机读写.png)
+    ![](../imgs/MySQL对数据页的随机读写.png)
       1. redo log、undo log 、 binlog这种日志的顺序读写
       2. 从表空间找到找到数据页的随机读写，如表的缓存页刷盘、从磁盘文件随机读取数据页，由于数据页可能在任意位置，故此时读写磁盘为随机读写
 
@@ -186,7 +186,7 @@ MySQL物理数据模型
 
 6. ### Linux文件系统
 
-    ![](..\imgs\Linux文件系统操作.png)
+    ![](../imgs/Linux文件系统操作.png)
    1. #### 分层：
 
       - VFS层：
@@ -272,7 +272,7 @@ MySQL物理数据模型
 
    4. redo log block
 
-    ![](..\imgs\redo log block块结构.png)
+    ![](../imgs/redo log block块结构.png)
       - 用于存放多个单行的redo log日志
       - 一个redo log block日志是512K ， 包含三个部分 header （12字节）、 body （496字节）和trailer （4字节）
       - header包含：
@@ -284,7 +284,7 @@ MySQL物理数据模型
 
    5. redo log日志写入磁盘顺序
 
-    ![](..\imgs\redo log写入顺序.png)
+    ![](../imgs/redo log写入顺序.png)
       - 先在内存中生成一系列的redo log日志，然后拼接好
       - 在内存中生成一个redo log block区域，然后将拼接好的redo log日志写入block的body之中
       - 内存中的redo log block刷入到磁盘中。（可一个个字节的进行追加）
@@ -325,7 +325,7 @@ MySQL物理数据模型
 
    2. 长什么样子?
 
-    ![](..\imgs\undo log日志格式.png)
+    ![](../imgs/undo log日志格式.png)
       1. 记录了哪些东西?
          - 这条undo log日志的开始位置
          - 主键的各列场地和值(主键每个列的长度，无则是默认的ROW_ID)
