@@ -3,7 +3,7 @@
    🚀 存放的为spring的源码阅读以及笔记
 ## spring-cloud-netflix
 > 总笔记的思维导图为
-[spring-cloud-netflix系列源码探析系列的思维导图图片](./spring-cloud-netflix/spring-cloud-netflix系列源码探析.png)
+> [spring-cloud-netflix系列源码探析系列的思维导图图片](./spring-cloud-netflix/spring-cloud-netflix系列源码探析.png)
 1. ### [spring-cloud-netflix](./spring-cloud-netflix/README.md)
     🚀 存放的为spring-cloud-netflix的源码阅读笔记
 
